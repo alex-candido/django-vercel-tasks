@@ -1,0 +1,15 @@
+use_cases:
+
+findOne(key: Param, value: str ), 
+findAll(props: Pagination), 
+createOne(entity: Entity), 
+createMany(entities: Entity[]),
+updateOne(entity: Entity), 
+updateMany(entities: Entity[]), 
+removeOne(id: EntityId),, 
+removeMany(ids: EntityId[]),, 
+search(props: Search), 
+filter(props: Filters)
+findById(id: EntityId)
+findByIds(ids: EntityId[])
+existsById(ids: EntityId[])

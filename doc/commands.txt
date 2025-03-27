@@ -1,0 +1,1 @@
+pdm run django-admin startproject django_app

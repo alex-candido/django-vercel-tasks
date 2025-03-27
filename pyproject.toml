@@ -1,0 +1,29 @@
+[project]
+name = "django-vercel-tasks"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Alex Candido", email = "alex.candido.tec@gmail.com"},
+]
+
+
+dependencies = [
+    "django>=5.1.7", 
+    "djangorestframework>=3.15.2", 
+    "psycopg2-binary>=2.9.10", 
+    "markdown>=3.7", 
+    "django-filter>=25.1"]
+
+
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+
+[tool.pdm.scripts]
+manage="python ./src/manage.py"
+server = "pdm run manage runserver 0.0.0.0:8000"
