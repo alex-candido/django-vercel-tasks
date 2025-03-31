@@ -1,0 +1,85 @@
+from rest_framework.viewsets import ViewSet
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from .models import User
+
+class UserViewSet(ViewSet):
+
+    def list(self, request):
+        """findAll"""
+        users = User.objects.all().values("id", "name", "email")
+        return Response(list(users))
+
+    def retrieve(self, request, pk=None):
+        """findById"""
+        user = get_object_or_404(User, id=pk)
+        return Response({"id": user.id, "name": user.name, "email": user.email})
+
+    def create(self, request):
+        """createOne"""
+        user = User.objects.create(**request.data)
+        return Response({"id": user.id, "name": user.name, "email": user.email}, status=201)
+
+    def update(self, request, pk=None):
+        """updateOne"""
+        user = get_object_or_404(User, id=pk)
+        for key, value in request.data.items():
+            setattr(user, key, value)
+        user.save()
+        return Response({"id": user.id, "name": user.name, "email": user.email})
+
+    def destroy(self, request, pk=None):
+        """removeOne"""
+        user = get_object_or_404(User, id=pk)
+        user.delete()
+        return Response(status=204)
+
+class UserBatchViewSet(ViewSet):
+    """Operações em massa"""
+
+    def create(self, request):
+        """createMany"""
+        users = [User(**data) for data in request.data]
+        User.objects.bulk_create(users)
+        return Response({"message": f"{len(users)} usuários criados"}, status=201)
+
+    def update(self, request):
+        """updateMany"""
+        for data in request.data:
+            user = get_object_or_404(User, id=data["id"])
+            for key, value in data.items():
+                setattr(user, key, value)
+            user.save()
+        return Response({"message": "Usuários atualizados com sucesso"})
+
+    def destroy(self, request):
+        """removeMany"""
+        User.objects.filter(id__in=request.data["ids"]).delete()
+        return Response({"message": "Usuários removidos"}, status=204)
+
+    def exists(self, request):
+        """existsById"""
+        ids = request.GET.getlist("ids")
+        exists = User.objects.filter(id__in=ids).exists()
+        return Response({"exists": exists})
+
+class UserSearchViewSet(ViewSet):
+    def search(self, request):
+        """search"""
+        query = request.data.get("query", "")
+        users = User.objects.filter(name__icontains=query).values("id", "name", "email")
+        return Response(list(users))
+
+# urls.py
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
+from .api import UserViewSet, UserBatchViewSet, UserSearchViewSet
+
+router = SimpleRouter()
+router.register(r'users', UserViewSet, basename='users')
+router.register(r'users/batch', UserBatchViewSet, basename='user-batch')
+router.register(r'users/search', UserSearchViewSet, basename='user-search')
+
+urlpatterns = [
+    path('', include(router.urls)),  
+]

@@ -13,3 +13,18 @@ filter(props: Filters)
 findById(id: EntityId)
 findByIds(ids: EntityId[])
 existsById(ids: EntityId[])
+
+
+crie um api para tasks usando ViewSet, e django templates com as views index, show, new, edit, na api devemos ter essas ações findOne(key: Param, value: str ), 
+findAll(props: Pagination), 
+createOne(entity: Entity), 
+createMany(entities: Entity[]),
+updateOne(entity: Entity), 
+updateMany(entities: Entity[]), 
+removeOne(id: EntityId),, 
+removeMany(ids: EntityId[]),, 
+search(props: Search), 
+filter(props: Filters)
+findById(id: EntityId)
+findByIds(ids: EntityId[])
+existsById(ids: EntityId[])
