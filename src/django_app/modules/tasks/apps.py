@@ -3,4 +3,6 @@ from django.apps import AppConfig
 
 class TasksConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'tasks'
+    name = 'django_app.modules.tasks'
+    label = 'tasks'
+    verbose_name = 'Tasks'

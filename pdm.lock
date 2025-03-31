@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:0faa9a6dfc4d34fcc86663ed3ef7ea4f3affa9e7fd1fb8eaa9a1084e42d55744"
+content_hash = "sha256:9d6afa90df1304c7a5b7415a4deb0656d81efbd84330364c55b5aa20ed1126c5"
 
 [[metadata.targets]]
 requires_python = "==3.10.*"
@@ -22,6 +22,16 @@ dependencies = [
 files = [
     {file = "asgiref-3.8.1-py3-none-any.whl", hash = "sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47"},
     {file = "asgiref-3.8.1.tar.gz", hash = "sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590"},
+]
+
+[[package]]
+name = "dataclasses"
+version = "0.6"
+summary = "A backport of the dataclasses module for Python 3.6"
+groups = ["default"]
+files = [
+    {file = "dataclasses-0.6-py3-none-any.whl", hash = "sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f"},
+    {file = "dataclasses-0.6.tar.gz", hash = "sha256:6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84"},
 ]
 
 [[package]]
