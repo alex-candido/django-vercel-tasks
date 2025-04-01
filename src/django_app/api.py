@@ -2,5 +2,5 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path('tasks/', include('django_app.modules.tasks.urls'))
+    path('tasks/', include('django_app.modules.v1.tasks.urls'))
 ]
