@@ -1,18 +1,19 @@
 # find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter, find_by_id, find_by_ids, exists_by_id, exists_by_ids
 
 ### Test creating a task / Testar criação de uma tarefa
-POST http://localhost:8000/api/tasks/create_one/
+POST http://localhost:8000/api/v1/tasks/create_one/
 Content-Type: application/json
 
 {
   "title": "Nova Tarefa",
   "description": "Descrição da tarefa",
   "completed": false,
-  "status": "active"
+  "status": "active",
+  "position": 1
 }
 
 ### Test creating multiple tasks / Testar criação de múltiplas tarefas
-POST http://localhost:8000/api/tasks/create_many/
+POST http://localhost:8000/api/v1/tasks/create_many/
 Content-Type: application/json
 
 [
@@ -20,71 +21,76 @@ Content-Type: application/json
     "title": "Tarefa 1",
     "description": "Descrição 1",
     "completed": false,
-    "status": "active"
+    "status": "active",
+    "position": 1
   },
   {
     "title": "Tarefa 2",
     "description": "Descrição 2",
     "completed": true,
-    "status": "inactive"
+    "status": "inactive",
+    "position": 2
   }
 ]
 
 ### Test fetching a task by ID / Testar busca de uma tarefa por ID
-GET http://localhost:8000/api/tasks/find_by_id/?id=1
+GET http://localhost:8000/api/v1/tasks/find_by_id/?id=7
 
 ### Test fetching multiple tasks by IDs / Testar busca de múltiplas tarefas por ID
-GET http://localhost:8000/api/tasks/find_by_ids/
+POST http://localhost:8000/api/v1/tasks/find_by_ids/
 Content-Type: application/json
 
 {
-    "ids": [4, 3]
+    "ids": [2, 3]
 }
 
 ### Test fetching all tasks / Testar busca de todas as tarefas
-GET http://localhost:8000/api/tasks/find_all/
+GET http://localhost:8000/api/v1/tasks/find_all/
 
 ### Test fetching a task by a specific field / Testar busca por um campo específico
-GET http://localhost:8000/api/tasks/find_one/?key=title&value=Nova%20Tarefa
+GET http://localhost:8000/api/v1/tasks/find_one/?key=title&value=Nova%20Tarefa
 
 ### Test updating a task / Testar atualização de uma tarefa
-PUT http://localhost:8000/api/tasks/update_one/
+PUT http://localhost:8000/api/v1/tasks/update_one/
 Content-Type: application/json
 
 {
-  "id": 5,
+  "id": 3,
   "title": "Tarefa Atualizada",
   "description": "Descrição atualizada",
   "completed": true,
-  "status": "inactive"
+  "status": "inactive",
+  "position": 3
 }
 
 ### Test updating multiple tasks / Testar atualização de múltiplas tarefas
-PUT http://localhost:8000/api/tasks/update_many/
+PUT http://localhost:8000/api/v1/tasks/update_many/
 Content-Type: application/json
 
 [
     {
         "id": 7,
-        "title": "Tarefa 1 Atualizada",
+        "title": "Tarefa 1222 Atualizada",
         "description": "Descrição 1 Atualizada",
         "completed": true,
-        "status": "inactive"
+        "status": "inactive",
+        "position": 1
     },
     {
         "id": 8,
         "title": "Tarefa 2 Atualizada",
         "description": "Descrição 2 Atualizada",
         "completed": false,
-        "status": "active"
+        "status": "active",
+        "position": 2
     }
 ]
 
 ### Test removing a task / Testar remoção de uma tarefa
-DELETE http://localhost:8000/api/tasks/remove_one/?id=6
+DELETE http://localhost:8000/api/v1/tasks/remove_one/?id=6
 
 ### Test removing multiple tasks / Testar remoção de múltiplas tarefas
-DELETE http://localhost:8000/api/tasks/remove_many/
+DELETE http://localhost:8000/api/v1/tasks/remove_many/
 Content-Type: application/json
 
 {
@@ -92,16 +98,16 @@ Content-Type: application/json
 }
 
 ### Test searching tasks by title / Testar busca com pesquisa por título
-GET http://localhost:8000/api/tasks/search/?search=Atua
+GET http://localhost:8000/api/v1/tasks/search/?search=Atua
 
 ### Test filtering tasks by status / Testar busca com filtro por status
-GET http://localhost:8000/api/tasks/filter/?status=inactive
+GET http://localhost:8000/api/v1/tasks/filter/?status=inactive
 
 ### Test if a task exists by ID / Testar se uma tarefa existe por ID
-GET http://localhost:8000/api/tasks/exists_by_id/?id=2
+GET http://localhost:8000/api/v1/tasks/exists_by_id/?id=2
 
 ### Test if multiple tasks exist by IDs / Testar se múltiplas tarefas existem por ID
-GET http://localhost:8000/api/tasks/exists_by_ids/
+POST http://localhost:8000/api/v1/tasks/exists_by_ids/
 Content-Type: application/json
 
 {

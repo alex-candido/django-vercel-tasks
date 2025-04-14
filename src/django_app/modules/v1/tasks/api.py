@@ -14,8 +14,6 @@ from .models import TasksModel
 # find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter,  find_by_id, find_by_ids, exists_by_id, exists_by_ids
 
 class TaskViewSet(viewsets.ModelViewSet):
-    serializer_class = TaskSerializer
-
     @action(detail=False, methods=['get'])
     def find_one(self, request):
         key = request.query_params.get('key')
@@ -23,17 +21,14 @@ class TaskViewSet(viewsets.ModelViewSet):
         if key and value:
             task = TasksRepository.find_one(key, value)
             if task:
-                serializer = TaskSerializer(task)
-                return Response(serializer.data)
-            else:
-                return Response({"detail": "Task not found"}, status=status.HTTP_404_NOT_FOUND)
-        return Response({"detail": "Invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(TaskSerializer(task).data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'], renderer_classes=[JSONRenderer])
+    @action(detail=False, methods=['get'])
     def find_all(self, request):
-        tasks = TasksRepository.find_all()  
-        serializer = TaskSerializer(tasks, many=True)
-        return Response(serializer.data)
+        tasks = TasksRepository.find_all()
+        return Response(TaskSerializer(tasks, many=True).data)
 
     @action(detail=False, methods=['post'])
     def create_one(self, request):
@@ -47,20 +42,28 @@ class TaskViewSet(viewsets.ModelViewSet):
     def create_many(self, request):
         serializer = TaskSerializer(data=request.data, many=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            tasks = TasksRepository.create_many(serializer.validated_data)
+            return Response(TaskSerializer(tasks, many=True).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['put'])
     def update_one(self, request):
         task_id = request.data.get('id')
-        task = get_object_or_404(TasksModel, id=task_id)
+        task = TasksRepository.find_by_id(task_id)
         serializer = TaskSerializer(task, data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            updated_task = TasksRepository.update_one(task_id, serializer.validated_data)
+            return Response(TaskSerializer(updated_task).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # @action(detail=False, methods=['put'])
+    # def update_many(self, request):
+    #     serializer = TaskSerializer(data=request.data, many=True)
+    #     if serializer.is_valid():
+    #         updated_tasks = TasksRepository.update_many(serializer.validated_data)
+    #         return Response(TaskSerializer(updated_tasks, many=True).data)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     @action(detail=False, methods=['put'])
     def update_many(self, request):
         tasks_data = request.data
@@ -81,55 +84,48 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['delete'])
     def remove_one(self, request):
-        task_id = request.data.get('id')
-        task = get_object_or_404(TasksModel, id=task_id)
-        task.delete()
+        task_id = request.query_params.get('id')
+        TasksRepository.remove_one(task_id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=['delete'])
     def remove_many(self, request):
         ids = request.data.get('ids')
-        tasks = TasksModel.objects.filter(id__in=ids)
-        tasks.delete()
+        TasksRepository.remove_many(ids)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=['get'])
     def search(self, request):
         search_query = request.query_params.get('search')
-        tasks = TasksModel.objects.filter(title__icontains=search_query)
-        serializer = TaskSerializer(tasks, many=True)
-        return Response(serializer.data)
+        tasks = TasksRepository.search('title__icontains', search_query)
+        return Response(TaskSerializer(tasks, many=True).data)
 
     @action(detail=False, methods=['get'])
     def filter(self, request):
-        status = request.query_params.get('status')
-        if not status:
-            return Response({'error': 'Status parameter is required'}, status=400)
-        tasks = self.queryset.filter(status=status)
-        serializer = self.get_serializer(tasks, many=True)
-        return Response(serializer.data)
+        status_param = request.query_params.get('status')
+        tasks = TasksRepository.filter(status=status_param)
+        return Response(TaskSerializer(tasks, many=True).data)
 
     @action(detail=False, methods=['get'])
     def find_by_id(self, request):
         task_id = request.query_params.get('id')
-        if not task_id:
-            return Response({'error': 'ID parameter is required'}, status=400)
-        try:
-            task = TasksModel.objects.get(id=task_id)
-            serializer = TaskSerializer(task)
-            return Response(serializer.data)
-        except TasksModel.DoesNotExist:
-            return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
+        task = TasksRepository.find_by_id(task_id)
+        return Response(TaskSerializer(task).data)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def find_by_ids(self, request):
-        ids = request.query_params.get('ids').split(',')
-        tasks = TasksModel.objects.filter(id__in=ids)
-        serializer = TaskSerializer(tasks, many=True)
-        return Response(serializer.data)
+        ids = request.data.get('ids')
+        tasks = TasksRepository.find_by_ids(ids)
+        return Response(TaskSerializer(tasks, many=True).data)
 
     @action(detail=False, methods=['get'])
     def exists_by_id(self, request):
         task_id = request.query_params.get('id')
-        exists = TasksModel.objects.filter(id=task_id).exists()
+        exists = TasksRepository.exists_by_id(task_id)
         return Response({"exists": exists})
+
+    @action(detail=False, methods=['post'])
+    def exists_by_ids(self, request):
+        ids = request.data.get('ids')
+        result = {str(task_id): TasksRepository.exists_by_id(task_id) for task_id in ids}
+        return Response({"exists": result})
