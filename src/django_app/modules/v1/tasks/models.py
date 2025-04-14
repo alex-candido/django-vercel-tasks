@@ -1,3 +1,5 @@
+# django_app/modules/v1/tasks/models.py
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -14,6 +16,7 @@ class TasksModel(models.Model):
         default=TaskStatus.ACTIVE
     )
     completed = models.BooleanField(default=False)
+    position = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -25,4 +28,5 @@ class TasksModel(models.Model):
         indexes = [
             models.Index(fields=['status']),
             models.Index(fields=['completed']),
+            models.Index(fields=['position']),  # Índice para o campo position
         ]

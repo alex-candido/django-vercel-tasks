@@ -1,4 +1,6 @@
-### Testar criação de uma tarefa
+# find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter, find_by_id, find_by_ids, exists_by_id, exists_by_ids
+
+### Test creating a task / Testar criação de uma tarefa
 POST http://localhost:8000/api/tasks/create_one/
 Content-Type: application/json
 
@@ -9,7 +11,7 @@ Content-Type: application/json
   "status": "active"
 }
 
-### Testar criação de múltiplas tarefas
+### Test creating multiple tasks / Testar criação de múltiplas tarefas
 POST http://localhost:8000/api/tasks/create_many/
 Content-Type: application/json
 
@@ -28,16 +30,24 @@ Content-Type: application/json
   }
 ]
 
-### Testar busca de uma tarefa por ID
+### Test fetching a task by ID / Testar busca de uma tarefa por ID
 GET http://localhost:8000/api/tasks/find_by_id/?id=1
 
-### Testar busca de todas as tarefas
+### Test fetching multiple tasks by IDs / Testar busca de múltiplas tarefas por ID
+GET http://localhost:8000/api/tasks/find_by_ids/
+Content-Type: application/json
+
+{
+    "ids": [4, 3]
+}
+
+### Test fetching all tasks / Testar busca de todas as tarefas
 GET http://localhost:8000/api/tasks/find_all/
 
-### Testar busca por um campo específico
+### Test fetching a task by a specific field / Testar busca por um campo específico
 GET http://localhost:8000/api/tasks/find_one/?key=title&value=Nova%20Tarefa
 
-### Testar atualização de uma tarefa
+### Test updating a task / Testar atualização de uma tarefa
 PUT http://localhost:8000/api/tasks/update_one/
 Content-Type: application/json
 
@@ -49,7 +59,7 @@ Content-Type: application/json
   "status": "inactive"
 }
 
-### Testar atualização de múltiplas tarefas
+### Test updating multiple tasks / Testar atualização de múltiplas tarefas
 PUT http://localhost:8000/api/tasks/update_many/
 Content-Type: application/json
 
@@ -70,15 +80,10 @@ Content-Type: application/json
     }
 ]
 
-### Testar remoção de uma tarefa
-DELETE http://localhost:8000/api/tasks/remove_one/
-Content-Type: application/json
+### Test removing a task / Testar remoção de uma tarefa
+DELETE http://localhost:8000/api/tasks/remove_one/?id=6
 
-{
-  "id": 6
-}
-
-### Testar remoção de múltiplas tarefas
+### Test removing multiple tasks / Testar remoção de múltiplas tarefas
 DELETE http://localhost:8000/api/tasks/remove_many/
 Content-Type: application/json
 
@@ -86,11 +91,19 @@ Content-Type: application/json
   "ids": [4, 3]
 }
 
-### Testar busca com pesquisa por título
+### Test searching tasks by title / Testar busca com pesquisa por título
 GET http://localhost:8000/api/tasks/search/?search=Atua
 
-### Testar busca com filtro por status
+### Test filtering tasks by status / Testar busca com filtro por status
 GET http://localhost:8000/api/tasks/filter/?status=inactive
 
-### Testar se uma tarefa existe por ID
+### Test if a task exists by ID / Testar se uma tarefa existe por ID
 GET http://localhost:8000/api/tasks/exists_by_id/?id=2
+
+### Test if multiple tasks exist by IDs / Testar se múltiplas tarefas existem por ID
+GET http://localhost:8000/api/tasks/exists_by_ids/
+Content-Type: application/json
+
+{
+  "ids": [4, 3]
+}

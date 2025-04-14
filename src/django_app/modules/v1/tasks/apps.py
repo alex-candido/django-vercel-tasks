@@ -1,5 +1,6 @@
-from django.apps import AppConfig
+# django_app/modules/v1/tasks/apps.py
 
+from django.apps import AppConfig
 
 class TasksConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

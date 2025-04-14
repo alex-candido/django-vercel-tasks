@@ -1,3 +1,5 @@
+# django_app/modules/v1/tasks/api.py
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -8,6 +10,8 @@ from django.core.exceptions import ValidationError
 from .serializers import TaskSerializer
 from .repository import TasksRepository
 from .models import TasksModel
+
+# find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter,  find_by_id, find_by_ids, exists_by_id, exists_by_ids
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer

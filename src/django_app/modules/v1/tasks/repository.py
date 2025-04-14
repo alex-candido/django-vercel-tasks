@@ -1,6 +1,10 @@
+# django_app/modules/v1/tasks/repository.py
+
 from django.shortcuts import get_object_or_404
 
 from .models import TasksModel
+
+# find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter,  find_by_id, find_by_ids, exists_by_id, exists_by_ids
 
 class TasksRepository:
     @staticmethod
