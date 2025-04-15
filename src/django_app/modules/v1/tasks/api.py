@@ -56,31 +56,13 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response(TaskSerializer(updated_task).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # @action(detail=False, methods=['put'])
-    # def update_many(self, request):
-    #     serializer = TaskSerializer(data=request.data, many=True)
-    #     if serializer.is_valid():
-    #         updated_tasks = TasksRepository.update_many(serializer.validated_data)
-    #         return Response(TaskSerializer(updated_tasks, many=True).data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     @action(detail=False, methods=['put'])
     def update_many(self, request):
-        tasks_data = request.data
-        updated_tasks = []
-        for task_data in tasks_data:
-            task_id = task_data.get('id')
-            task = TasksModel.objects.filter(id=task_id).first()
-            if task:
-                serializer = TaskSerializer(task, data=task_data)
-                if serializer.is_valid():
-                    serializer.save()
-                    updated_tasks.append(serializer.data)
-                else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response({'error': f'Task with id {task_id} not found'}, status=status.HTTP_404_NOT_FOUND)
-        return Response(updated_tasks)
+        serializer = TaskSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            updated_tasks = TasksRepository.update_many(serializer.validated_data)
+            return Response(TaskSerializer(updated_tasks, many=True).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['delete'])
     def remove_one(self, request):

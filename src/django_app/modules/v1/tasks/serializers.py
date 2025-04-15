@@ -4,6 +4,8 @@ from rest_framework import serializers
 from .models import TasksModel
 
 class TaskSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = TasksModel
         fields = ['id', 'title', 'description', 'status', 'completed', 'position', 'created_at', 'updated_at']  # Campos específicos
@@ -18,6 +20,6 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.status = validated_data.get('status', instance.status)
         instance.completed = validated_data.get('completed', instance.completed)
-        instance.position = validated_data.get('position', instance.position)  # Certificar-se de que a posição é atualizada
+        instance.position = validated_data.get('position', instance.position) 
         instance.save()
         return instance

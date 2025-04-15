@@ -34,7 +34,7 @@ Content-Type: application/json
 ]
 
 ### Test fetching a task by ID / Testar busca de uma tarefa por ID
-GET http://localhost:8000/api/v1/tasks/find_by_id/?id=7
+GET http://localhost:8000/api/v1/tasks/find_by_id/?id=8
 
 ### Test fetching multiple tasks by IDs / Testar busca de múltiplas tarefas por ID
 POST http://localhost:8000/api/v1/tasks/find_by_ids/
@@ -55,7 +55,7 @@ PUT http://localhost:8000/api/v1/tasks/update_one/
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 8,
   "title": "Tarefa Atualizada",
   "description": "Descrição atualizada",
   "completed": true,
@@ -69,16 +69,16 @@ Content-Type: application/json
 
 [
     {
-        "id": 7,
-        "title": "Tarefa 1222 Atualizada",
+        "id": 19,
+        "title": "Tarefa 1235 Atualizada",
         "description": "Descrição 1 Atualizada",
         "completed": true,
         "status": "inactive",
         "position": 1
     },
     {
-        "id": 8,
-        "title": "Tarefa 2 Atualizada",
+        "id": 20,
+        "title": "Tarefa 22 Atualizada",
         "description": "Descrição 2 Atualizada",
         "completed": false,
         "status": "active",
@@ -87,7 +87,7 @@ Content-Type: application/json
 ]
 
 ### Test removing a task / Testar remoção de uma tarefa
-DELETE http://localhost:8000/api/v1/tasks/remove_one/?id=6
+DELETE http://localhost:8000/api/v1/tasks/remove_one/?id=3
 
 ### Test removing multiple tasks / Testar remoção de múltiplas tarefas
 DELETE http://localhost:8000/api/v1/tasks/remove_many/

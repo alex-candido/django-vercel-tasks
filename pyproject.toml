@@ -13,7 +13,8 @@ dependencies = [
     "psycopg2-binary>=2.9.10", 
     "markdown>=3.7", 
     "django-filter>=25.1", 
-    "dataclasses>=0.6"]
+    "dataclasses>=0.6", 
+    "django-extensions>=4.1"]
 
 
 requires-python = "==3.10.*"

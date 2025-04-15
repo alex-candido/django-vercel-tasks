@@ -51,8 +51,8 @@ class TasksRepository:
 
     @staticmethod
     def remove_many(tasks_ids):
-        tasks = TasksModel.objects.filter(id__in=tasks_ids)
-        tasks.delete()
+        for task_id in tasks_ids:
+            get_object_or_404(TasksModel, id=task_id).delete()
 
     @staticmethod
     def search(key, value):
