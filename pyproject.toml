@@ -14,7 +14,8 @@ dependencies = [
     "markdown>=3.7", 
     "django-filter>=25.1", 
     "dataclasses>=0.6", 
-    "django-extensions>=4.1"]
+    "django-extensions>=4.1", 
+    "dependency-injector>=4.46.0"]
 
 
 requires-python = "==3.10.*"
