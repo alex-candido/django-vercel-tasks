@@ -8,7 +8,7 @@ from typing import Any
 from dataclasses import Field, dataclass, field, asdict
 
 class UniqueEntityId():
-    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    id: str = field(default_factory=lambda: str)
 
 @dataclass(frozen=True, slots=True)
 class Entity(ABC):

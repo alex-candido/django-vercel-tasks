@@ -36,3 +36,7 @@ class CreateOneTaskUseCase(UseCase):
         pass
     
     
+@dataclass(slots=True, frozen=True)
+class FindOneTaskUseCase(UseCase):
+    pass
+    

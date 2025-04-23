@@ -1,19 +1,26 @@
 # django_app/modules/v1/tasks/api.py
 
+from typing import Callable
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
+from dataclasses import asdict, dataclass
 
 from .serializers import TaskSerializer
 from .repository import TasksRepository
 from .models import TasksModel
 
+from core.modules.v1.tasks.application.use_cases import CreateOneTaskUseCase, CreateOneTaskInput
+
 # find_one, find_all, create_one, create_many, update_one, update_many, remove_one, remove_many, search, filter,  find_by_id, find_by_ids, exists_by_id, exists_by_ids
 
+@dataclass(slots=True)
 class TaskViewSet(viewsets.ModelViewSet):
+    create_one_use_case: Callable[[], CreateOneTaskUseCase]
+    
     @action(detail=False, methods=['get'])
     def find_one(self, request):
         key = request.query_params.get('key')
@@ -29,14 +36,20 @@ class TaskViewSet(viewsets.ModelViewSet):
     def find_all(self, request):
         tasks = TasksRepository.find_all()
         return Response(TaskSerializer(tasks, many=True).data)
-
+    
     @action(detail=False, methods=['post'])
     def create_one(self, request):
-        serializer = TaskSerializer(data=request.data)
-        if serializer.is_valid():
-            task = TasksRepository.create_one(serializer.validated_data)
-            return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        input_param = CreateOneTaskInput.Input(data=request.data)
+        output = self.create_one_use_case().execute(input_param)
+        return Response(asdict(output), status=status.HTTP_201_CREATED)
+
+    # @action(detail=False, methods=['post'])
+    # def create_one(self, request):
+    #     serializer = TaskSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         task = TasksRepository.create_one(serializer.validated_data)
+    #         return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['post'])
     def create_many(self, request):

@@ -1,0 +1,89 @@
+tree src/
+src/
+├── core
+│   ├── __seedwork
+│   │   ├── application
+│   │   │   ├── output.py
+│   │   │   └── use_cases.py
+│   │   ├── domain
+│   │   │   ├── entities.py
+│   │   │   └── repositories.py
+│   │   └── infra
+│   │       └── mappers.py
+│   └── modules
+│       └── v1
+│           └── tasks
+│               ├── application
+│               │   ├── output.py
+│               │   └── use_cases.py
+│               ├── domain
+│               │   ├── entities.py
+│               │   ├── repositories.py
+│               │   ├── services.py
+│               │   └── validators.py
+│               └── infra
+│                   ├── in_memory_repositories.py
+│                   ├── mappers.py
+│                   └── repositories.py
+├── db.sqlite3
+├── django_app
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── api.cpython-310.pyc
+│   │   ├── settings.cpython-310.pyc
+│   │   ├── urls.cpython-310.pyc
+│   │   └── wsgi.cpython-310.pyc
+│   ├── __shared
+│   │   ├── __pycache__
+│   │   │   ├── api.cpython-310.pyc
+│   │   │   ├── settings.cpython-310.pyc
+│   │   │   ├── urls.cpython-310.pyc
+│   │   │   └── wsgi.cpython-310.pyc
+│   │   ├── api.py
+│   │   ├── asgi.py
+│   │   ├── config.py
+│   │   ├── container.py
+│   │   ├── permissions.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   └── modules
+│       ├── v1
+│       │   ├── default
+│       │   └── tasks
+│       │       ├── __init__.py
+│       │       ├── __pycache__
+│       │       │   ├── __init__.cpython-310.pyc
+│       │       │   ├── admin.cpython-310.pyc
+│       │       │   ├── api.cpython-310.pyc
+│       │       │   ├── apps.cpython-310.pyc
+│       │       │   ├── models.cpython-310.pyc
+│       │       │   ├── repository.cpython-310.pyc
+│       │       │   ├── serializers.cpython-310.pyc
+│       │       │   └── urls.cpython-310.pyc
+│       │       ├── admin.py
+│       │       ├── api.py
+│       │       ├── apps.py
+│       │       ├── containers.py
+│       │       ├── migrations
+│       │       │   ├── 0001_initial.py
+│       │       │   ├── __init__.py
+│       │       │   └── __pycache__
+│       │       │       ├── 0001_initial.cpython-310.pyc
+│       │       │       └── __init__.cpython-310.pyc
+│       │       ├── models.py
+│       │       ├── repository.py
+│       │       ├── serializers.py
+│       │       ├── tests.py
+│       │       ├── urls.py
+│       │       └── views.py
+│       └── v2
+├── manage.py
+└── templates
+    ├── layouts
+    │   └── application.html
+    └── system
+        └── tasks
+
+27 directories, 58 files
